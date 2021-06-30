@@ -1,0 +1,72 @@
+@keyframes article_text_opacity {
+     from {
+         opacity: 0;
+     }
+     to {
+         opacity: 0.6;
+     }
+ }
+
+ @keyframes status_text_opacity {
+     from {
+         opacity: 0;
+     }
+     to {
+         opacity: 0.35;
+     }
+ }
+
+*{
+     padding: 0px;
+     margin: 0px;
+}
+
+body{
+     padding: 0px;
+     margin: 0px;
+     background-color: #66A3D2;
+}
+
+.header{
+     text-align: center;
+     background-color: #eee;
+     background-image: linear-gradient(left,#033E6B,#0B61A4);
+     background-image: -o-linear-gradient(left,#033E6B,#0B61A4);
+     background-image: -moz-linear-gradient(left,#033E6B,#0B61A4);
+     background-image: -webkit-linear-gradient(left,#033E6B,#0B61A4);
+     
+}
+
+#article{
+     padding-top: 100px;
+     font-size: 120px;
+     margin-bottom: 3%;
+     font-weight: bold;
+     font-family: Arial;
+     color: #66A3D2;
+     animation-name: article_text_opacity;
+     animation-duration: 2s;
+     animation-fill-mode: forwards;
+}
+
+#status{
+     padding-bottom: 45px;
+     font-size: 75%;
+     font-weight: bold;
+     font-family: Arial;
+     color: #66A3D2;
+     animation-name: status_text_opacity;
+     animation-duration: 2s;
+     animation-fill-mode: forwards;
+}
+
+.main_work{
+     align-content: center;
+}
+
+.inputoutput{
+     float: left; 
+     margin: 0 15px 15px 0; 
+     padding: 10;
+     
+}
