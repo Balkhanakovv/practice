@@ -10,3 +10,8 @@ function cannyFilter(src, thresgoldMin = 50, thresholdMax = 100, apertureSize = 
      cv.Canny(src, dst, thresgoldMin, thresholdMax, apertureSize, L2gradient);
      return dst;
 }
+
+function sepia(src) {
+    
+}
+

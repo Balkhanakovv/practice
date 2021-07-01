@@ -11,15 +11,28 @@ inputElement.addEventListener('change', (e) => {
      dstImg = new cv.Mat();
 }, false);
 
-imgElement.onload = function() {
+function onOpenCvReady() {
+     document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
+}
+
+function bwEvent() {
+     if (srcImg == null) return;
+
+     let src = cv.imread(imgElement);
+     dstImg = convertRGBToGray(src);
+
+     cv.imshow('canvasOutput', dstImg);
+
+     src.delete();
+}
+
+function cannyEvent() {
+     if (srcImg == null) return;
+
      let src = cv.imread(imgElement);
      dstImg = cannyFilter(src);
 
      cv.imshow('canvasOutput', dstImg);
 
      src.delete();
-};
-
-function onOpenCvReady() {
-     document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
 }

@@ -15,13 +15,28 @@
           <div class="main_work">
                <div class="inputoutput">
                     <img id="imgInput" ></canvas>
-               </div>
+               </div>       
+               
                <div class="inputoutput">
                     <canvas id="canvasOutput" ></canvas>
-                    <div class="caption">canvasOutput</div>
+               </div>  
+               
+               <div class="caption">
+                    <input type="file" id="fileInput" name="file" />
                </div>
+          </div>
 
-               <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
+          <div class="controls">
+               <form>
+                    <p>
+                         <input type="radio" value="black-white" onchange="bwEvent()" name="ctrl"/> 
+                         black-white 
+                    </p>
+                    <p>
+                         <input type="radio" value="canny" onchange="cannyEvent()" name="ctrl"/> 
+                         canny 
+                    </p>
+               </form>
           </div>
 
           <script type="text/javascript" src="js/main.js"></script>
