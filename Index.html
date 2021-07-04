@@ -28,14 +28,42 @@
 
           <div class="controls">
                <form>
-                    <p>
-                         <input type="radio" value="black-white" onchange="bwEvent()" name="ctrl"/> 
-                         black-white 
-                    </p>
-                    <p>
-                         <input type="radio" value="canny" onchange="cannyEvent()" name="ctrl"/> 
-                         canny 
-                    </p>
+                    <ul class="hr">
+                         <li>
+                              <input type="radio" value="brightnessAndContrast" onchange="bcEvent()" name="ctrl"/> 
+                              brightnessAndContrast 
+                         </li>
+                         <li>
+                              <input type="radio" value="black-white" onchange="bwEvent()" name="ctrl"/> 
+                              black-white 
+                         </li>
+                         <li>
+                              <input type="radio" value="sepia" onchange="sepiaEvent()" name="ctrl"/> 
+                              sepia 
+                         </li>
+                         <li>
+                              <input type="radio" value="canny" onchange="cannyEvent()" name="ctrl"/> 
+                              canny 
+                         </li>
+                         <li>
+                              <input type="radio" value="blur" onchange="blurEvent()" name="ctrl"/> 
+                              blur 
+                         </li>
+                    </ul>
+
+                    <div id="bcControls">
+                         <input type="range" id="brightnessTrackbar" value="125" min="0" max="250" step="1" oninput="bcEvent()"/>
+                         <input type="range" id="contrastTrackBar" value="5" min="0" max="10" step="1" oninput="bcEvent()"/>
+                    </div>
+
+                    <div id="cannyControls">
+                         <input type="range" id="cannyTrackbarMin" value="50" min="0" max="255" step="1" oninput="cannyEvent()"/>
+                         <input type="range" id="cannyTrackbarMax" value="50" min="0" max="255" step="1" oninput="cannyEvent()"/>
+                    </div>
+
+                    <div id="blurControl">
+                         <input type="range" id="blurSize" value="5" min="0" max="10" step="1" oninput="blurEvent()"/>
+                    </div>
                </form>
           </div>
 
