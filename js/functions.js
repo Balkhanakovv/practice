@@ -33,11 +33,9 @@ function sepiaFilter(src) {
 
      for (var i = 0; i < dst.cols; i++)
           for (var j = 0; j < dst.rows; j++) {
-               
-               dst.ucharPtr(i, j)[0] = doubleRound(dst.ucharPtr(i, j)[2] * (272 / 1000) + dst.ucharPtr(i, j)[1] * (534 / 1000) + dst.ucharPtr(i, j)[0] * (131 / 1000));
-               dst.ucharPtr(i, j)[1] = doubleRound(dst.ucharPtr(i, j)[2] * (349 / 1000) + dst.ucharPtr(i, j)[1] * (686 / 1000) + dst.ucharPtr(i, j)[0] * (168 / 1000));
                dst.ucharPtr(i, j)[2] = doubleRound(dst.ucharPtr(i, j)[2] * (393 / 1000) + dst.ucharPtr(i, j)[1] * (769 / 1000) + dst.ucharPtr(i, j)[0] * (189 / 1000));
-               
+               dst.ucharPtr(i, j)[1] = doubleRound(dst.ucharPtr(i, j)[2] * (349 / 1000) + dst.ucharPtr(i, j)[1] * (686 / 1000) + dst.ucharPtr(i, j)[0] * (168 / 1000));
+               dst.ucharPtr(i, j)[0] = doubleRound(dst.ucharPtr(i, j)[2] * (272 / 1000) + dst.ucharPtr(i, j)[1] * (534 / 1000) + dst.ucharPtr(i, j)[0] * (131 / 1000));
           }
 
      return dst;

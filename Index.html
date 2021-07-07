@@ -12,7 +12,13 @@
                <p id="status">OpenCV.js is loading...</p>
           </div>
           
-          <div class="main_work">
+
+          <div class="caption" align="center">
+               <input type="file" id="fileInput" name="file" />
+          </div>
+
+          <div class="main_work" align="center">
+
                <div class="inputoutput">
                     <img id="imgInput" ></canvas>
                </div>       
@@ -21,35 +27,36 @@
                     <canvas id="canvasOutput" ></canvas>
                </div>  
                
-               <div class="caption">
-                    <input type="file" id="fileInput" name="file" />
-               </div>
+
           </div>
 
-          <div class="controls">
+          <div class="controls" align="center">
                <form>
-                    <ul class="hr">
-                         <li>
-                              <input type="radio" value="brightnessAndContrast" onchange="bcEvent()" name="ctrl"/> 
-                              brightnessAndContrast 
-                         </li>
-                         <li>
-                              <input type="radio" value="black-white" onchange="bwEvent()" name="ctrl"/> 
-                              black-white 
-                         </li>
-                         <li>
-                              <input type="radio" value="sepia" onchange="sepiaEvent()" name="ctrl"/> 
-                              sepia 
-                         </li>
-                         <li>
-                              <input type="radio" value="canny" onchange="cannyEvent()" name="ctrl"/> 
-                              canny 
-                         </li>
-                         <li>
-                              <input type="radio" value="blur" onchange="blurEvent()" name="ctrl"/> 
-                              blur 
-                         </li>
-                    </ul>
+
+                    <div class="form_radio_btn">
+                         <input id="radio-1" type="radio" value="brightnessAndContrast" onchange="bcEvent()" name="ctrl"/> 
+                         <label for="radio-1">brightnessAndContrast</label> 
+                    </div>
+                     
+                    <div class="form_radio_btn">
+                         <input id="radio-2" type="radio" value="black-white" onchange="bwEvent()" name="ctrl"/> 
+                         <label for="radio-2">black-white</label>
+                    </div>
+                     
+                    <div class="form_radio_btn">
+                         <input id="radio-3" type="radio" value="sepia" onchange="sepiaEvent()" name="ctrl"/> 
+                         <label for="radio-3">sepia</label> 
+                    </div>
+                     
+                    <div class="form_radio_btn">
+                         <input id="radio-4" type="radio" value="canny" onchange="cannyEvent()" name="ctrl"/> 
+                         <label for="radio-4">canny</label>
+                    </div>
+
+                    <div class="form_radio_btn">
+                         <input id="radio-5" type="radio" value="blur" onchange="blurEvent()" name="ctrl"/> 
+                         <label for="radio-5">blur</label>
+                    </div>
 
                     <div id="bcControls">
                          <input type="range" id="brightnessTrackbar" value="125" min="0" max="250" step="1" oninput="bcEvent()"/>
@@ -64,6 +71,8 @@
                     <div id="blurControl">
                          <input type="range" id="blurSize" value="5" min="0" max="10" step="1" oninput="blurEvent()"/>
                     </div>
+
+
                </form>
           </div>
 
