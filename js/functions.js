@@ -1,5 +1,4 @@
-function doubleRound (number)
-{
+function doubleRound (number) {
      if (number < 0)
           number = 0.0;
 
@@ -33,9 +32,9 @@ function sepiaFilter(src) {
 
      for (var i = 0; i < dst.cols; i++)
           for (var j = 0; j < dst.rows; j++) {
-               dst.ucharPtr(i, j)[2] = doubleRound(dst.ucharPtr(i, j)[2] * (393 / 1000) + dst.ucharPtr(i, j)[1] * (769 / 1000) + dst.ucharPtr(i, j)[0] * (189 / 1000));
-               dst.ucharPtr(i, j)[1] = doubleRound(dst.ucharPtr(i, j)[2] * (349 / 1000) + dst.ucharPtr(i, j)[1] * (686 / 1000) + dst.ucharPtr(i, j)[0] * (168 / 1000));
-               dst.ucharPtr(i, j)[0] = doubleRound(dst.ucharPtr(i, j)[2] * (272 / 1000) + dst.ucharPtr(i, j)[1] * (534 / 1000) + dst.ucharPtr(i, j)[0] * (131 / 1000));
+               dst.ucharPtr(j, i)[0] = doubleRound(dst.ucharPtr(j, i)[2] * (393 / 1000) + dst.ucharPtr(j, i)[1] * (769 / 1000) + dst.ucharPtr(j, i)[0] * (189 / 1000));
+               dst.ucharPtr(j, i)[1] = doubleRound(dst.ucharPtr(j, i)[2] * (349 / 1000) + dst.ucharPtr(j, i)[1] * (686 / 1000) + dst.ucharPtr(j, i)[0] * (168 / 1000));
+               dst.ucharPtr(j, i)[2] = doubleRound(dst.ucharPtr(j, i)[2] * (272 / 1000) + dst.ucharPtr(j, i)[1] * (534 / 1000) + dst.ucharPtr(j, i)[0] * (131 / 1000));
           }
 
      return dst;
@@ -46,10 +45,53 @@ function brightnessAndContrast (src, brightness, contrast) {
 
      for (var i = 0; i < dst.cols; i++)
           for (var j = 0; j < dst.rows; j++) {
-               dst.ucharPtr(i, j)[0] = doubleRound(dst.ucharPtr(i, j)[0] * contrast * 0.1 + brightness);
-               dst.ucharPtr(i, j)[1] = doubleRound(dst.ucharPtr(i, j)[1] * contrast * 0.1 + brightness);
-               dst.ucharPtr(i, j)[2] = doubleRound(dst.ucharPtr(i, j)[2] * contrast * 0.1 + brightness);
+               dst.ucharPtr(j, i)[0] = doubleRound(dst.ucharPtr(j, i)[0] * contrast * 0.1 + brightness);
+               dst.ucharPtr(j, i)[1] = doubleRound(dst.ucharPtr(j, i)[1] * contrast * 0.1 + brightness);
+               dst.ucharPtr(j, i)[2] = doubleRound(dst.ucharPtr(j, i)[2] * contrast * 0.1 + brightness);
           }
+
+     return dst;
+}
+
+function cartoonFilter (src) {
+     let dst = src.clone();
+     let tmp = src.clone();
+
+     cv.medianBlur(src, tmp, 3);
+     cv.cvtColor(tmp, tmp, cv.COLOR_RGB2GRAY, 0);
+     cv.adaptiveThreshold(tmp, tmp, 200, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 3, 2);
+
+     for (var i = 0; i < tmp.cols; i++)
+          for (var j = 0; j < tmp.rows; j++) {
+               if (tmp.ucharPtr(j, i)[0] != 0)
+                   tmp.ucharPtr(j, i)[0] = 255; 
+          }
+
+     for (var i = 0; i < src.cols; i++)
+          for (var j = 0; j < src.rows; j++) {
+               for (var ch = 0; ch < 3; ch++) {
+                    var value = dst.ucharPtr(j, i)[ch];
+                   
+                    if (value <= 50)
+                         value = 0;
+                    else if (value <= 100)
+                         value = 25;
+                    else if (value <= 150)
+                         value = 180;
+                    else if (value <= 200)
+                         value = 210;
+                    else value = 250;
+
+                    dst.ucharPtr(j, i)[ch] = value
+               }
+
+               if (tmp.ucharPtr(j, i)[0] == 0) {
+                    dst.ucharPtr(j, i)[0] = 0;
+                    dst.ucharPtr(j, i)[1] = 0;
+                    dst.ucharPtr(j, i)[2] = 0;
+               } 
+          }
+
 
      return dst;
 }

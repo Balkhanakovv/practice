@@ -26,8 +26,8 @@ function bwEvent() {
      if (srcImg == null) return;
 
      let src = cv.imread(imgElement);
-     dstImg = convertRGBToGray(src);
 
+     dstImg = convertRGBToGray(src);
      cv.imshow('canvasOutput', dstImg);
 
      src.delete();
@@ -40,8 +40,8 @@ function cannyEvent() {
      if (srcImg == null) return;
 
      let src = cv.imread(imgElement);
-     dstImg = cannyFilter(src, document.getElementById('cannyTrackbarMin').value * 1.0, document.getElementById('cannyTrackbarMax').value * 1.0);
 
+     dstImg = cannyFilter(src, document.getElementById('cannyTrackbarMin').value * 1.0, document.getElementById('cannyTrackbarMax').value * 1.0);
      cv.imshow('canvasOutput', dstImg);
 
      src.delete();
@@ -54,14 +54,14 @@ function blurEvent() {
      if (srcImg == null) return;
 
      let src = cv.imread(imgElement);
-     dstImg = blur(src, document.getElementById('blurSize').value * 1.0);
 
+     dstImg = blur(src, document.getElementById('blurSize').value * 1.0);
      cv.imshow('canvasOutput', dstImg);
 
      src.delete();
 }
 
-function sepiaEvent(src) {
+function sepiaEvent() {
      document.getElementById('cannyControls').style.visibility = "hidden";
      document.getElementById('blurControl').style.visibility = "hidden";
      document.getElementById('bcControls').style.visibility = "hidden";
@@ -70,7 +70,6 @@ function sepiaEvent(src) {
      var src = cv.imread(imgElement);
      
      dstImg = sepiaFilter(src);
-
      cv.imshow('canvasOutput', dstImg);
 
      src.delete();
@@ -85,7 +84,20 @@ function bcEvent() {
      var src = cv.imread(imgElement);
 
      dstImg = brightnessAndContrast(src, document.getElementById('brightnessTrackbar').value * 1.0, document.getElementById('contrastTrackBar').value * 1.0);
+     cv.imshow('canvasOutput', dstImg);
 
+     src.delete();
+}
+
+function cartoonEvent() {
+     document.getElementById('cannyControls').style.visibility = "hidden";
+     document.getElementById('blurControl').style.visibility = "hidden";
+     document.getElementById('bcControls').style.visibility = "hidden";
+     if (srcImg == null) return;
+
+     var src = cv.imread(imgElement);
+
+     dstImg = cartoonFilter(src);
      cv.imshow('canvasOutput', dstImg);
 
      src.delete();

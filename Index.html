@@ -58,18 +58,23 @@
                          <label for="radio-5">blur</label>
                     </div>
 
+                    <div class="form_radio_btn">
+                         <input id="radio-6" type="radio" value="cartoon" onchange="cartoonEvent()" name="ctrl"/> 
+                         <label for="radio-6">cartoon</label>
+                    </div>
+
                     <div id="bcControls">
-                         <input type="range" id="brightnessTrackbar" value="125" min="0" max="250" step="1" oninput="bcEvent()"/>
-                         <input type="range" id="contrastTrackBar" value="5" min="0" max="10" step="1" oninput="bcEvent()"/>
+                         <input class="slider" type="range" id="brightnessTrackbar" value="125" min="0" max="250" step="1" oninput="bcEvent()"/>
+                         <input class="slider" type="range" id="contrastTrackBar" value="5" min="0" max="10" step="1" oninput="bcEvent()"/>
                     </div>
 
                     <div id="cannyControls">
-                         <input type="range" id="cannyTrackbarMin" value="50" min="0" max="255" step="1" oninput="cannyEvent()"/>
-                         <input type="range" id="cannyTrackbarMax" value="50" min="0" max="255" step="1" oninput="cannyEvent()"/>
+                         <input class="slider" type="range" id="cannyTrackbarMin" value="50" min="0" max="255" step="1" oninput="cannyEvent()"/>
+                         <input class="slider" type="range" id="cannyTrackbarMax" value="50" min="0" max="255" step="1" oninput="cannyEvent()"/>
                     </div>
 
                     <div id="blurControl">
-                         <input type="range" id="blurSize" value="5" min="0" max="10" step="1" oninput="blurEvent()"/>
+                         <input class="slider" type="range" id="blurSize" value="5" min="0" max="10" step="1" oninput="blurEvent()"/>
                     </div>
 
 
