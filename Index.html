@@ -20,13 +20,12 @@
           <div class="main_work" align="center">
 
                <div class="inputoutput">
-                    <img id="imgInput" ></canvas>
+                    <img id="canvasInput" width="320px" height="240px"></img>
                </div>       
                
                <div class="inputoutput">
                     <canvas id="canvasOutput" ></canvas>
-               </div>  
-               
+               </div>               
 
           </div>
 
@@ -77,9 +76,15 @@
                          <input class="slider" type="range" id="blurSize" value="5" min="0" max="10" step="1" oninput="blurEvent()"/>
                     </div>
 
-
                </form>
           </div>
+
+          <footer align="right">
+               <form>
+                    <input class="buttons" type="button" id="ApplyButton" value="Apply"/>
+                    <input class="buttons" type="button" id="SaveButton" value="Save"/>
+               </form>
+          </footer>
 
           <script type="text/javascript" src="js/main.js"></script>
           <script type="text/javascript" src="js/functions.js"></script>

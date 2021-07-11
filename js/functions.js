@@ -92,7 +92,6 @@ function cartoonFilter (src) {
                } 
           }
 
-
      return dst;
 }
 
