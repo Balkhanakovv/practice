@@ -35,13 +35,18 @@ inputElement.addEventListener('change', (e) => {
 
      var context = canvasOutput.getContext('2d');
      context.clearRect(0, 0, canvasOutput.width, canvasOutput.height);
+
+     document.getElementById('cannyControls').style.visibility = "hidden";
+     document.getElementById('blurControl').style.visibility = "hidden";
+     document.getElementById('bcControls').style.visibility = "hidden";
 }, false);
 
 applyButton.addEventListener('click', (e) => {
      if (dstImg != null) {
-          var tmpImgURL = canvasOutput.toDataURL();
+          var tmpImgURL = hiddenCanvasOutput.toDataURL();
 
           imgElement.src = tmpImgURL;
+          imageHidden.src = tmpImgURL;
           srcImg = tmpImgURL;
      }
 });
