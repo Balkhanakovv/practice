@@ -38,7 +38,7 @@ inputElement.addEventListener('change', (e) => {
 
      document.getElementById('cannyControls').style.visibility = "hidden";
      document.getElementById('blurControl').style.visibility = "hidden";
-     document.getElementById('bcControls').style.visibility = "hidden";
+     document.getElementById('bcControls').style.visibility = "hidden";    
 }, false);
 
 applyButton.addEventListener('click', (e) => {
