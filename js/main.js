@@ -56,7 +56,7 @@ saveButton.addEventListener('click', (e) => {
           var tmpImgURL = hiddenCanvasOutput.toDataURL();
 
           var newTab = window.open('about:blank','image from canvas');
-          newTab.document.write("<img src='" + tmpImgURL + "' alt='from canvas'/>"); 
+          newTab.document.write("<img src='" + tmpImgURL + "' alt='result'/>"); 
      }
 });
 
@@ -78,15 +78,15 @@ function bwEvent() {
      document.getElementById('bcControls').style.visibility = "hidden";
      if (srcImg == null) return;
 
-     let src = cv.imread(imgElement);
      let srcFull = cv.imread(imageHidden);
+     let tmp = new cv.Mat();
 
-     dstImg = convertRGBToGray(src);
      Img = convertRGBToGray(srcFull);
-     cv.imshow('canvasOutput', dstImg);
-     cv.imshow('hiddenCanvasOutput', Img);
+     cv.resize(Img, tmp, new cv.Size(imgElement.width, imgElement.height), 0, 0, cv.INTER_AREA);
 
-     src.delete();
+     cv.imshow('hiddenCanvasOutput', Img);
+     cv.imshow('canvasOutput', tmp);
+
      srcFull.delete();
 }
 
@@ -96,15 +96,15 @@ function cannyEvent() {
      document.getElementById('bcControls').style.visibility = "hidden";
      if (srcImg == null) return;
 
-     let src = cv.imread(imgElement);
      let srcFull = cv.imread(imageHidden);
+     let tmp = new cv.Mat();
 
-     dstImg = cannyFilter(src, document.getElementById('cannyTrackbarMin').value * 1.0, document.getElementById('cannyTrackbarMax').value * 1.0);
      Img = cannyFilter(srcFull, document.getElementById('cannyTrackbarMin').value * 1.0, document.getElementById('cannyTrackbarMax').value * 1.0);
-     cv.imshow('canvasOutput', dstImg);
-     cv.imshow('hiddenCanvasOutput', Img);
+     cv.resize(Img, tmp, new cv.Size(imgElement.width, imgElement.height), 0, 0, cv.INTER_AREA);
 
-     src.delete();
+     cv.imshow('hiddenCanvasOutput', Img);
+     cv.imshow('canvasOutput', tmp);
+
      srcFull.delete();
 }
 
@@ -114,15 +114,15 @@ function blurEvent() {
      document.getElementById('bcControls').style.visibility = "hidden";
      if (srcImg == null) return;
 
-     let src = cv.imread(imgElement);
      let srcFull = cv.imread(imageHidden);
+     let tmp = new cv.Mat();
 
-     dstImg = blur(src, document.getElementById('blurSize').value * 1.0);
      Img = blur(srcFull, document.getElementById('blurSize').value * 1.0);
-     cv.imshow('canvasOutput', dstImg);
-     cv.imshow('hiddenCanvasOutput', Img);
+     cv.resize(Img, tmp, new cv.Size(imgElement.width, imgElement.height), 0, 0, cv.INTER_AREA);
 
-     src.delete();
+     cv.imshow('hiddenCanvasOutput', Img);
+     cv.imshow('canvasOutput', tmp);
+
      srcFull.delete();
 }
 
@@ -132,15 +132,15 @@ function sepiaEvent() {
      document.getElementById('bcControls').style.visibility = "hidden";
      if (srcImg == null) return;
 
-     let src = cv.imread(imgElement);
      let srcFull = cv.imread(imageHidden);
-     
-     dstImg = sepiaFilter(src);
-     Img = sepiaFilter(srcFull);
-     cv.imshow('canvasOutput', dstImg);
-     cv.imshow('hiddenCanvasOutput', Img);
+     let tmp = new cv.Mat();
 
-     src.delete();
+     Img = sepiaFilter(srcFull);
+     cv.resize(Img, tmp, new cv.Size(imgElement.width, imgElement.height), 0, 0, cv.INTER_AREA);
+     
+     cv.imshow('hiddenCanvasOutput', Img);
+     cv.imshow('canvasOutput', tmp);
+
      srcFull.delete();
 }
 
@@ -150,15 +150,15 @@ function bcEvent() {
      document.getElementById('bcControls').style.visibility = "visible";
      if (srcImg == null) return;
 
-     let src = cv.imread(imgElement);
      let srcFull = cv.imread(imageHidden);
+     let tmp = new cv.Mat();
 
-     dstImg = brightnessAndContrast(src, document.getElementById('brightnessTrackbar').value * 1.0, document.getElementById('contrastTrackBar').value * 1.0);
      Img = brightnessAndContrast(srcFull, document.getElementById('brightnessTrackbar').value * 1.0, document.getElementById('contrastTrackBar').value * 1.0);
-     cv.imshow('canvasOutput', dstImg);
-     cv.imshow('hiddenCanvasOutput', Img);
+     cv.resize(Img, tmp, new cv.Size(imgElement.width, imgElement.height), 0, 0, cv.INTER_AREA);
 
-     src.delete();
+     cv.imshow('hiddenCanvasOutput', Img);
+     cv.imshow('canvasOutput', tmp);
+
      srcFull.delete();
 }
 
@@ -168,14 +168,14 @@ function cartoonEvent() {
      document.getElementById('bcControls').style.visibility = "hidden";
      if (srcImg == null) return;
 
-     let src = cv.imread(imgElement);
      let srcFull = cv.imread(imageHidden);
+     let tmp = new cv.Mat();
 
-     dstImg = cartoonFilter(src);
      Img = cartoonFilter(srcFull);
-     cv.imshow('canvasOutput', dstImg);
-     cv.imshow('hiddenCanvasOutput', Img);
+     cv.resize(Img, tmp, new cv.Size(imgElement.width, imgElement.height), 0, 0, cv.INTER_AREA);
 
-     src.delete();
+     cv.imshow('hiddenCanvasOutput', Img);
+     cv.imshow('canvasOutput', tmp);
+
      srcFull.delete();
 }
