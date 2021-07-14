@@ -21,9 +21,13 @@ function cannyFilter(src, thresgoldMin = 50, thresholdMax = 100, apertureSize = 
      return dst;
 }
 
-function blur(src, blurSize = 5) {
+function blur(src, size = 3) {
      let dst = new cv.Mat();
-     cv.medianBlur(src, dst, blurSize);
+
+     if (size % 2 != 1)
+          size = size + 1;
+
+     cv.GaussianBlur(src, dst, new cv.Size(size, size), 0, 0, cv.BORDER_DEFAULT);
      return dst;
 }
 
