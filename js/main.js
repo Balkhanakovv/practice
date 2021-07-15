@@ -1,6 +1,7 @@
 let srcImg = null;
 let dstImg = null;
 let Img = null;
+let dust = null;
 
 let imgElement = document.getElementById('canvasInput');
 let inputElement = document.getElementById('fileInput');
@@ -9,10 +10,38 @@ let saveButton = document.getElementById('SaveButton');
 let canvasOutput = document.getElementById('canvasOutput');
 let imageHidden = document.getElementById('imageHidden');
 let canvasHidden = document.getElementById('hiddenCanvasOutput');
+let dustMask = document.getElementById('dustMask');
 
-document.getElementById('cannyControls').style.visibility = "hidden";
-document.getElementById('blurControl').style.visibility = "hidden";
-document.getElementById('bcControls').style.visibility = "hidden";
+hideControls();
+
+
+/*
+-----------------------------------------------------------------------------
+|                        Service functions                                  |
+-----------------------------------------------------------------------------
+*/
+
+function hideControls() {
+     document.getElementById('cannyControls').style.visibility = "hidden";
+     document.getElementById('blurControl').style.visibility = "hidden";
+     document.getElementById('bcControls').style.visibility = "hidden";   
+}
+
+function filterOperation(func, ...temps) {
+     hideControls();
+     if (srcImg == null) return;
+
+     let srcFull = cv.imread(imageHidden);
+     let tmp = new cv.Mat();
+
+     Img = func(srcFull, temps[0], temps[1]);
+     cv.resize(Img, tmp, new cv.Size(imgElement.width, imgElement.height), 0, 0, cv.INTER_AREA);
+
+     cv.imshow('hiddenCanvasOutput', Img);
+     cv.imshow('canvasOutput', tmp);
+
+     srcFull.delete();
+}
 
 
 /*
@@ -29,16 +58,16 @@ inputElement.addEventListener('change', (e) => {
 
      dstImg = new cv.Mat();
 
-     for (var i = 1; i < 7; i++) {
+     for (var i = 1; i < 9; i++) {
           document.getElementById(`radio-${i}`).checked = false;
      }
 
      var context = canvasOutput.getContext('2d');
      context.clearRect(0, 0, canvasOutput.width, canvasOutput.height);
 
-     document.getElementById('cannyControls').style.visibility = "hidden";
-     document.getElementById('blurControl').style.visibility = "hidden";
-     document.getElementById('bcControls').style.visibility = "hidden";    
+     hideControls();
+
+     dustMask.src = 'img/dust.jpg';
 }, false);
 
 applyButton.addEventListener('click', (e) => {
@@ -61,7 +90,6 @@ saveButton.addEventListener('click', (e) => {
 });
 
 
-
 /*
 -----------------------------------------------------------------------------
 |                        Filters events                                     |
@@ -73,109 +101,36 @@ function onOpenCvReady() {
 }
 
 function bwEvent() {
-     document.getElementById('cannyControls').style.visibility = "hidden";
-     document.getElementById('blurControl').style.visibility = "hidden";
-     document.getElementById('bcControls').style.visibility = "hidden";
-     if (srcImg == null) return;
-
-     let srcFull = cv.imread(imageHidden);
-     let tmp = new cv.Mat();
-
-     Img = convertRGBToGray(srcFull);
-     cv.resize(Img, tmp, new cv.Size(imgElement.width, imgElement.height), 0, 0, cv.INTER_AREA);
-
-     cv.imshow('hiddenCanvasOutput', Img);
-     cv.imshow('canvasOutput', tmp);
-
-     srcFull.delete();
+     filterOperation(convertRGBToGray);
 }
 
 function cannyEvent() {
+     filterOperation(cannyFilter, document.getElementById('cannyTrackbarMin').value * 1.0, document.getElementById('cannyTrackbarMax').value * 1.0);
      document.getElementById('cannyControls').style.visibility = "visible";
-     document.getElementById('blurControl').style.visibility = "hidden";
-     document.getElementById('bcControls').style.visibility = "hidden";
-     if (srcImg == null) return;
-
-     let srcFull = cv.imread(imageHidden);
-     let tmp = new cv.Mat();
-
-     Img = cannyFilter(srcFull, document.getElementById('cannyTrackbarMin').value * 1.0, document.getElementById('cannyTrackbarMax').value * 1.0);
-     cv.resize(Img, tmp, new cv.Size(imgElement.width, imgElement.height), 0, 0, cv.INTER_AREA);
-
-     cv.imshow('hiddenCanvasOutput', Img);
-     cv.imshow('canvasOutput', tmp);
-
-     srcFull.delete();
 }
 
 function blurEvent() {
-     document.getElementById('cannyControls').style.visibility = "hidden";
+     filterOperation(blur, document.getElementById('blurSize').value * 1.0);
      document.getElementById('blurControl').style.visibility = "visible";
-     document.getElementById('bcControls').style.visibility = "hidden";
-     if (srcImg == null) return;
-
-     let srcFull = cv.imread(imageHidden);
-     let tmp = new cv.Mat();
-
-     Img = blur(srcFull, document.getElementById('blurSize').value * 1.0);
-     cv.resize(Img, tmp, new cv.Size(imgElement.width, imgElement.height), 0, 0, cv.INTER_AREA);
-
-     cv.imshow('hiddenCanvasOutput', Img);
-     cv.imshow('canvasOutput', tmp);
-
-     srcFull.delete();
 }
 
 function sepiaEvent() {
-     document.getElementById('cannyControls').style.visibility = "hidden";
-     document.getElementById('blurControl').style.visibility = "hidden";
-     document.getElementById('bcControls').style.visibility = "hidden";
-     if (srcImg == null) return;
-
-     let srcFull = cv.imread(imageHidden);
-     let tmp = new cv.Mat();
-
-     Img = sepiaFilter(srcFull);
-     cv.resize(Img, tmp, new cv.Size(imgElement.width, imgElement.height), 0, 0, cv.INTER_AREA);
-     
-     cv.imshow('hiddenCanvasOutput', Img);
-     cv.imshow('canvasOutput', tmp);
-
-     srcFull.delete();
+     filterOperation(sepiaFilter);
 }
 
 function bcEvent() {
-     document.getElementById('cannyControls').style.visibility = "hidden";
-     document.getElementById('blurControl').style.visibility = "hidden";
+     filterOperation(brightnessAndContrast, document.getElementById('brightnessTrackbar').value * 1.0, document.getElementById('contrastTrackBar').value * 1.0);
      document.getElementById('bcControls').style.visibility = "visible";
-     if (srcImg == null) return;
-
-     let srcFull = cv.imread(imageHidden);
-     let tmp = new cv.Mat();
-
-     Img = brightnessAndContrast(srcFull, document.getElementById('brightnessTrackbar').value * 1.0, document.getElementById('contrastTrackBar').value * 1.0);
-     cv.resize(Img, tmp, new cv.Size(imgElement.width, imgElement.height), 0, 0, cv.INTER_AREA);
-
-     cv.imshow('hiddenCanvasOutput', Img);
-     cv.imshow('canvasOutput', tmp);
-
-     srcFull.delete();
 }
 
 function cartoonEvent() {
-     document.getElementById('cannyControls').style.visibility = "hidden";
-     document.getElementById('blurControl').style.visibility = "hidden";
-     document.getElementById('bcControls').style.visibility = "hidden";
-     if (srcImg == null) return;
+     filterOperation(cartoonFilter);
+}
 
-     let srcFull = cv.imread(imageHidden);
-     let tmp = new cv.Mat();
+function retroEvent() {
+     filterOperation(retroFilter, dustMask);
+}
 
-     Img = cartoonFilter(srcFull);
-     cv.resize(Img, tmp, new cv.Size(imgElement.width, imgElement.height), 0, 0, cv.INTER_AREA);
-
-     cv.imshow('hiddenCanvasOutput', Img);
-     cv.imshow('canvasOutput', tmp);
-
-     srcFull.delete();
+function sketchEvent() {
+     filterOperation(sketchFilter);
 }

@@ -30,6 +30,10 @@
                <div class="hiddenDiv" style="display: none;">
                     <img id="imageHidden"></img>
                     <canvas id="hiddenCanvasOutput"></canvas>
+               </div>
+
+               <div class="hiddenDiv" style="display: none;">
+                    <img id="dustMask" width="850px" height="515px"></img>
                </div>              
 
           </div>
@@ -65,6 +69,16 @@
                     <div class="form_radio_btn">
                          <input id="radio-6" type="radio" value="cartoon" onchange="cartoonEvent()" name="ctrl"/> 
                          <label for="radio-6">cartoon</label>
+                    </div>
+
+                    <div class="form_radio_btn">
+                         <input id="radio-7" type="radio" value="retro" onchange="retroEvent()" name="ctrl"/> 
+                         <label for="radio-7">retro</label>
+                    </div>
+
+                    <div class="form_radio_btn">
+                         <input id="radio-8" type="radio" value="sketch" onchange="sketchEvent()" name="ctrl"/> 
+                         <label for="radio-8">sketch</label>
                     </div>
 
                     <div id="bcControls">

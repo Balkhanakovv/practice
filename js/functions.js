@@ -44,7 +44,7 @@ function sepiaFilter(src) {
      return dst;
 }
 
-function brightnessAndContrast (src, brightness, contrast) {
+function brightnessAndContrast(src, brightness, contrast) {
      let dst = src.clone();
 
      for (var i = 0; i < dst.cols; i++)
@@ -57,7 +57,7 @@ function brightnessAndContrast (src, brightness, contrast) {
      return dst;
 }
 
-function cartoonFilter (src) {
+function cartoonFilter(src) {
      let dst = src.clone();
      let tmp = src.clone();
 
@@ -99,3 +99,43 @@ function cartoonFilter (src) {
      return dst;
 }
 
+
+function retroFilter(src, mask) {
+     let dst = src.clone();
+     //let dust = cv.imread(mask);
+
+     for (var i = 0; i < dst.cols; i++)
+          for (var j = 0; j < dst.rows; j++) {               
+               dst.ucharPtr(j, i)[0] = doubleRound(dst.ucharPtr(j, i)[0] + 50);
+          }
+     
+     //let tmp = cv.imread(mask);
+
+     /*cv.cvtColor(tmp, tmp, cv.COLOR_RGB2GRAY, 0);
+
+     for (var i = 0; i < tmp.cols; i++)
+          for (var j = 0; j < tmp.rows; j++) {
+               if (tmp.ucharPtr(j, i)[0] == 0) {
+                    dst.ucharPtr(j, i)[0] = 0;
+               } 
+          }*/
+
+     //cv.add(src, tmp, dst, new cv.Mat(), -1);
+
+     return dst;
+}
+
+function sketchFilter(src) {
+     let tmp = src.clone();
+     let dst = new cv.Mat();
+
+     cv.cvtColor(tmp, tmp, cv.COLOR_RGB2GRAY, 0);
+     cv.Scharr(tmp, dst, cv.CV_8U, 0, 1, 1, 0, cv.BORDER_DEFAULT);
+
+     for (var i = 0; i < dst.cols; i++)
+          for (var j = 0; j < dst.rows; j++) {               
+               dst.ucharPtr(j, i)[0] = Math.abs(dst.ucharPtr(j, i)[0] - 255);
+          }
+
+     return dst;
+}
