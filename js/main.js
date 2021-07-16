@@ -43,6 +43,28 @@ function filterOperation(func, ...temps) {
      srcFull.delete();
 }
 
+function getCurrentDate() {
+     let date = new Date();
+     var dd = String(date.getDate()).padStart(2, '0');
+     var mm = String(date.getMonth() + 1).padStart(2, '0');
+     var yyyy = date.getFullYear();
+
+     return mm + '.' + dd + '.' + yyyy;
+}
+
+function addDateOnImage(obj) {
+     var context = obj.getContext("2d");
+
+     context.fillStyle = "#FC4C2D";
+     context.strokeStyle = 'black';
+     context.font = `${obj.width / 15}px digital`; 
+     context.fillText(`${getCurrentDate()}`, obj.width - (obj.width / 3.5), obj.height - (obj.height * 0.03));
+     context.strokeText(`${getCurrentDate()}`, obj.width - (obj.width / 3.5), obj.height - (obj.height * 0.03));
+
+     context.fill();
+     context.stroke();
+}
+
 
 /*
 -----------------------------------------------------------------------------
@@ -129,6 +151,9 @@ function cartoonEvent() {
 
 function retroEvent() {
      filterOperation(retroFilter, dustMask);
+
+     addDateOnImage(canvasOutput);
+     addDateOnImage(canvasHidden);
 }
 
 function sketchEvent() {
