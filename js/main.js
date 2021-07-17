@@ -24,7 +24,8 @@ hideControls();
 function hideControls() {
      document.getElementById('cannyControls').style.visibility = "hidden";
      document.getElementById('blurControl').style.visibility = "hidden";
-     document.getElementById('bcControls').style.visibility = "hidden";   
+     document.getElementById('bcControls').style.visibility = "hidden";
+     document.getElementById('sketchTrackbarValue').style.visibility = "hidden";   
 }
 
 function filterOperation(func, ...temps) {
@@ -80,7 +81,7 @@ inputElement.addEventListener('change', (e) => {
 
      dstImg = new cv.Mat();
 
-     for (var i = 1; i < 9; i++) {
+     for (var i = 1; i < 11; i++) {
           document.getElementById(`radio-${i}`).checked = false;
      }
 
@@ -151,11 +152,18 @@ function cartoonEvent() {
 
 function retroEvent() {
      filterOperation(retroFilter, dustMask);
+}
 
+function sketchEvent() {
+     filterOperation(sketchFilter, document.getElementById('sketchTrackbarValue').value * 1.0);
+     document.getElementById('sketchTrackbarValue').style.visibility = "visible";
+}
+
+function dateEvent() {
      addDateOnImage(canvasOutput);
      addDateOnImage(canvasHidden);
 }
 
-function sketchEvent() {
-     filterOperation(sketchFilter);
+function invertEvent() {
+     filterOperation(invertionBW);
 }

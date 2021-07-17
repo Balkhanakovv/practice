@@ -99,43 +99,65 @@ function cartoonFilter(src) {
      return dst;
 }
 
-
 function retroFilter(src, mask) {
      let dst = src.clone();
-     //let dust = cv.imread(mask);
 
      for (var i = 0; i < dst.cols; i++)
           for (var j = 0; j < dst.rows; j++) {               
                dst.ucharPtr(j, i)[0] = doubleRound(dst.ucharPtr(j, i)[0] + 50);
           }
-     
-     //let tmp = cv.imread(mask);
 
-     /*cv.cvtColor(tmp, tmp, cv.COLOR_RGB2GRAY, 0);
+     mask = cv.imread(mask);
+     cv.resize(mask, mask, new cv.Size(src.cols, src.rows), 0, 0, cv.INTER_AREA);
+     cv.cvtColor(mask, mask, cv.COLOR_RGB2GRAY, 0);
 
-     for (var i = 0; i < tmp.cols; i++)
-          for (var j = 0; j < tmp.rows; j++) {
-               if (tmp.ucharPtr(j, i)[0] == 0) {
-                    dst.ucharPtr(j, i)[0] = 0;
-               } 
-          }*/
-
-     //cv.add(src, tmp, dst, new cv.Mat(), -1);
+     for (var i = 0; i < mask.cols; i++)
+          for (var j = 0; j < mask.rows; j++) {
+               if (mask.ucharPtr(j, i)[0] < 150) {
+                    dst.ucharPtr(j, i)[0] = doubleRound(dst.ucharPtr(j, i)[0] + Math.random() * (100 - 10) + 10);
+                    dst.ucharPtr(j, i)[1] = doubleRound(dst.ucharPtr(j, i)[1] + Math.random() * (100 - 10) + 10);
+                    dst.ucharPtr(j, i)[2] = doubleRound(dst.ucharPtr(j, i)[2] + Math.random() * (100 - 10) + 10);
+               }
+          }
 
      return dst;
 }
 
-function sketchFilter(src) {
+function sketchFilter(src, value) {
      let tmp = src.clone();
      let dst = new cv.Mat();
 
      cv.cvtColor(tmp, tmp, cv.COLOR_RGB2GRAY, 0);
-     cv.Scharr(tmp, dst, cv.CV_8U, 0, 1, 1, 0, cv.BORDER_DEFAULT);
+     cv.Sobel(tmp, dst, cv.CV_8U, 1, 1, 3, 1, 0, cv.BORDER_DEFAULT);
 
      for (var i = 0; i < dst.cols; i++)
           for (var j = 0; j < dst.rows; j++) {               
                dst.ucharPtr(j, i)[0] = Math.abs(dst.ucharPtr(j, i)[0] - 255);
+
+               if (dst.ucharPtr(j, i)[0] < value){
+                    dst.ucharPtr(j, i)[0] = Math.random() * (3 - 0) + 0;
+                    console.log(dst.ucharPtr(j, i)[0]);
+               }
+               else {
+                    dst.ucharPtr(j, i)[0] = 255; 
+               }
           }
 
      return dst;
+}
+
+function invertionBW(src) {
+     let dst = new cv.Mat();
+
+     cv.cvtColor(src, dst, cv.COLOR_RGB2GRAY, 0);
+
+     for (var i = 0; i < dst.cols; i++)
+          for (var j = 0; j < dst.rows; j++) {               
+               dst.ucharPtr(j, i)[0] = Math.abs(dst.ucharPtr(j, i)[0] - 255);
+
+               if (dst.ucharPtr(j, i)[0] == 0)
+                    dst.ucharPtr(j, i)[0] = doubleRound(dst.ucharPtr(j, i)[0] + Math.random() * (50 - 0) + 0);
+          }
+
+     return dst;  
 }
