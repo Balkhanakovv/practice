@@ -91,6 +91,11 @@
                          <label for="radio-10">BWinvert</label>
                     </div>
 
+                    <div class="form_radio_btn">
+                         <input id="radio-11" type="radio" value="portrait" onchange="portraitEvent()" name="ctrl"/> 
+                         <label for="radio-11">portrait</label>
+                    </div>
+
                     <div id="bcControls">
                          <input class="slider" type="range" id="brightnessTrackbar" value="125" min="0" max="250" step="1" oninput="bcEvent()"/>
                          <input class="slider" type="range" id="contrastTrackBar" value="5" min="0" max="10" step="1" oninput="bcEvent()"/>
@@ -121,6 +126,6 @@
 
           <script type="text/javascript" src="js/main.js"></script>
           <script type="text/javascript" src="js/functions.js"></script>
-          <script async src="js/libs/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+          <script async src="https://docs.opencv.org/4.5.2/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
      </body>
 </html>

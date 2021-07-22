@@ -12,6 +12,8 @@ let imageHidden = document.getElementById('imageHidden');
 let canvasHidden = document.getElementById('hiddenCanvasOutput');
 let dustMask = document.getElementById('dustMask');
 
+let faceCascade = null;
+
 hideControls();
 
 
@@ -20,6 +22,10 @@ hideControls();
 |                        Service functions                                  |
 -----------------------------------------------------------------------------
 */
+
+function onOpenCvReady() {
+     document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
+}
 
 function hideControls() {
      document.getElementById('cannyControls').style.visibility = "hidden";
@@ -81,7 +87,7 @@ inputElement.addEventListener('change', (e) => {
 
      dstImg = new cv.Mat();
 
-     for (var i = 1; i < 11; i++) {
+     for (var i = 1; i < 12; i++) {
           document.getElementById(`radio-${i}`).checked = false;
      }
 
@@ -91,6 +97,24 @@ inputElement.addEventListener('change', (e) => {
      hideControls();
 
      dustMask.src = 'img/dust.jpg';
+
+     faceCascade = new cv.CascadeClassifier();
+
+     let request = new XMLHttpRequest();
+     request.open('GET', 'haarcascade_frontalface_default.xml', true);
+     request.responseType = 'arraybuffer';
+     request.onload = function(ev) {
+          if (request.readyState === 4) {
+               if (request.status === 200) {
+                    let data = new Uint8Array(request.response);
+                    cv.FS_createDataFile('/', 'haarcascade_frontalface_default.xml', data, true, false, false);
+                    faceCascade.load('haarcascade_frontalface_default.xml');
+               } else {
+                    self.printError('Failed to load ' + 'haarcascade_frontalface_default.xml' + ' status: ' + request.status);
+               }
+          }
+     };
+     request.send();
 }, false);
 
 applyButton.addEventListener('click', (e) => {
@@ -118,10 +142,6 @@ saveButton.addEventListener('click', (e) => {
 |                        Filters events                                     |
 -----------------------------------------------------------------------------
 */
-
-function onOpenCvReady() {
-     document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
-}
 
 function bwEvent() {
      filterOperation(convertRGBToGray);
@@ -166,4 +186,8 @@ function dateEvent() {
 
 function invertEvent() {
      filterOperation(invertionBW);
+}
+
+function portraitEvent() {
+     filterOperation(portraitFilter, faceCascade);
 }
